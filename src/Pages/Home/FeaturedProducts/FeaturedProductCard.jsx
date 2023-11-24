@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 import useAuth from "../../../Hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FeaturedProductCard = ({ cards }) => {
-  const { name, image, tags } = cards;
+  const { name, image, tags, _id } = cards;
   const { user } = useAuth();
   const navigate = useNavigate();
   //   ================================================
@@ -38,7 +38,9 @@ const FeaturedProductCard = ({ cards }) => {
           <img className="w-[400px] h-[200px]" src={image} alt="Shoes" />
         </figure>
         <div className="card-body" data-aos="fade-up-right">
-          <h2 className="card-title text-cyan-400 text-2xl">{name}</h2>
+          <Link to={`/product/${_id}`}>
+            <h2 className="card-title text-cyan-400 text-2xl">{name}</h2>
+          </Link>
           <p>
             <span className="text-cyan-400 font-bold">Tags: </span>
             {tags[2]}
@@ -48,7 +50,7 @@ const FeaturedProductCard = ({ cards }) => {
             <button
               onClick={handleUpVote}
               className={`btn mt-4 hover:bg-cyan-400 hover:text-white hover:font-bold ${
-                hasVoted ? "cursor-not-allowed opacity-50" : ""
+                hasVoted ? "cursor-not-allowed opacity-80" : ""
               }`}
               disabled={hasVoted}
             >
@@ -58,7 +60,7 @@ const FeaturedProductCard = ({ cards }) => {
             <button
               onClick={handleDownVote}
               className={`btn mt-4 hover:bg-red-400 hover:text-white hover:font-bold ${
-                hasVoted ? "cursor-not-allowed opacity-50" : ""
+                hasVoted ? "cursor-not-allowed opacity-80" : ""
               }`}
               disabled={hasVoted}
             >
