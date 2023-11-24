@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 
 import Swal from "sweetalert2";
+import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 const Login = () => {
   // =================================================================
   const { signIn } = useContext(AuthContext);
@@ -95,6 +96,7 @@ const Login = () => {
                 />
               </div>
             </form>
+            <GoogleLogin></GoogleLogin>
 
             <p className="px-8">
               <small>

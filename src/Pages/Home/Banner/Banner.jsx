@@ -9,13 +9,17 @@ const Banner = () => {
         alt="Banner"
       />
 
-      <div className="absolute bg-slate-900 bg-opacity-40 w-full h-full rounded-md flex flex-col items-center justify-center">
-        <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 text-white">
-          Your Banner Title
-        </h2>
-        <p className="text-lg md:text-xl lg:text-2xl text-white">
-          A clear and visible description of your banner content.
-        </p>
+      <div className="absolute bg-slate-900 bg-opacity-60 w-full h-full rounded-md flex flex-col items-center justify-center">
+        <div className="text-center lg:px-44">
+          <h2 className="text-2xl lg:text-7xl mt-12 font-bold mb-4 text-white">
+            Discover, Share, and Experience the Latest in Tech!
+          </h2>
+          <p className="text-base sm:text-lg px-2 md:text-xl lg:text-2xl text-white">
+            Join our community to submit new products, vote on existing ones,
+            share your reviews, and unlock premium features with our integrated
+            payment system.
+          </p>
+        </div>
       </div>
     </div>
   );
