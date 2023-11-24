@@ -1,12 +1,18 @@
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import registerImg from "../../../src/assets/Images/registerr.jpg";
-import { useContext } from "react";
-import { AuthContext } from "../../Providers/AuthProvider";
-
+import useAuth from "../../Hooks/useAuth";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
+import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
+// ========================FOR IMAGE HOSTING=========================================
+// const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const SignUp = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   // ======================react hook form============================================
   const {
     register,
@@ -22,6 +28,23 @@ const SignUp = () => {
     createUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
       console.log(loggedUser);
+      updateUserProfile(data.name, data.photoURL).then(() => {
+        console.log("User profile updated successfully");
+
+        // create user entry to the mongo database
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+          photoURL: data.photoURL,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            reset();
+            Swal.fire("User created successfully");
+            navigate("/");
+          }
+        });
+      });
     });
   };
 
@@ -113,7 +136,7 @@ const SignUp = () => {
                 />
               </div>
             </form>
-            {/* <SocialLogin></SocialLogin> */}
+            <GoogleLogin></GoogleLogin>
             <p className="px-8">
               <small>
                 <Link to="/login"> Already have an account? Login Here...</Link>
