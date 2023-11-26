@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <>
-      <footer className="footer footer-center p-10 bg-lime-500 text-base-content rounded mt-24">
+      <footer className="footer footer-center p-10 bg-cyan-400 text-base-content rounded mt-24">
         <nav className="grid grid-flow-col gap-4 text-white">
           <a className="link link-hover">About us</a>
           <a className="link link-hover">Contact</a>
@@ -48,7 +48,10 @@ const Footer = () => {
       </footer>
       <div className=" footer-center p-4 bg-base-300 text-base-content">
         <aside>
-          <p>Copyright © 2023 - All right reserved by ACME Industries Ltd</p>
+          <p>
+            Copyright © 2024 - All right reserved by Gadget Harbor Industries
+            Ltd
+          </p>
         </aside>
       </div>
     </>

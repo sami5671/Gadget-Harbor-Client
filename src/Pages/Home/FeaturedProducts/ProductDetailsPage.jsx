@@ -1,19 +1,47 @@
 // Import necessary libraries and components
 import { Helmet } from "react-helmet-async";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
+import ProductReviewCard from "./ProductReviewCard";
+import { FaReplyAll, FaThumbsUp } from "react-icons/fa";
 
 const ProductDetailsPage = () => {
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const productDetails = useLoaderData();
-  //   console.log(productDetails);
-  const { name, image, tags, _id } = productDetails;
+  const navigate = useNavigate();
+  const { name, image, tag, _id } = productDetails;
+  const [review, setReview] = useState([]);
 
+  // =======================for upvVote and Report ==========================================
+  const [votesUp, setVotesUp] = useState(0);
+  const [report, setReport] = useState(0);
+  const [hasVoted, setHasVoted] = useState(false);
+
+  const handleUpVote = () => {
+    if (user && !hasVoted) {
+      setVotesUp(votesUp + 1);
+      setHasVoted(true);
+    } else {
+      navigate("/login");
+    }
+  };
+  const handleDownVote = () => {
+    if (user && !hasVoted) {
+      setReport(report + 1);
+      setHasVoted(true);
+    } else {
+      navigate("/login");
+    }
+  };
   // =================================================================
+  //   console.log(productDetails);
+
+  // ===========================POST THE REVIEW ======================================
   const handlePostReview = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -40,6 +68,12 @@ const ProductDetailsPage = () => {
       }
     });
   };
+  // =======================for getting the review ==========================================
+  useEffect(() => {
+    axiosPublic.get("/reviews").then((res) => {
+      setReview(res.data);
+    });
+  }, [axiosPublic]);
   // =================================================================
   return (
     <div>
@@ -65,12 +99,33 @@ const ProductDetailsPage = () => {
             cupiditate pariatur illum perspiciatis.
           </h1>
           <div className="mb-4">
-            <p>Tag_1: {tags[0]}</p>
-            <p>Tag_2: {tags[1]}</p>
-            <p>Tag_3: {tags[2]}</p>
+            <p>
+              <span className=" text-2xl font-bold">Tag: </span>
+              {tag}
+            </p>
           </div>
           <p>External Links: </p>
           <p>UpVote Count: </p>
+          <button
+            onClick={handleUpVote}
+            className={`btn mt-4 hover:bg-cyan-400 hover:text-white hover:font-bold ${
+              hasVoted ? "cursor-not-allowed opacity-80" : ""
+            }`}
+            disabled={hasVoted}
+          >
+            UpVote <FaThumbsUp className="text-green-500"></FaThumbsUp>
+            {votesUp}
+          </button>
+          <button
+            onClick={handleDownVote}
+            className={`btn ml-4 mt-4 hover:bg-red-400 hover:text-white hover:font-bold ${
+              hasVoted ? "cursor-not-allowed opacity-80" : ""
+            }`}
+            disabled={hasVoted}
+          >
+            Report <FaReplyAll className="text-red-500"></FaReplyAll>
+            {report}
+          </button>
         </div>
       </section>
 
@@ -80,29 +135,17 @@ const ProductDetailsPage = () => {
           subHeading={name}
         ></SectionTitle>
       </section>
-      {/* ---------- */}
-      <div className="max-w-sm mx-auto bg-white rounded-md overflow-hidden shadow-lg flex py-6">
-        <img
-          className="w-16 h-16 object-cover object-center rounded-full"
-          src={user.photoURL} // Replace with the URL or path to the customer's avatar image
-          alt="img"
-        />
-        <div className="flex flex-col justify-center ml-4">
-          <div className="font-bold text-xl mb-2">John Doe</div>
-          <p className="text-gray-700 text-base">
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          </p>
-          <div className="flex mt-2">
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-              5 Stars
-            </span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-              Verified Buyer
-            </span>
-          </div>
+      {/* -----review ----- */}
+      <section className="p-4 md:p-16 mx-auto mt-12 lg:mt-8">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
+          {review.map((items) => (
+            <ProductReviewCard
+              key={items._id}
+              items={items}
+            ></ProductReviewCard>
+          ))}
         </div>
-      </div>
+      </section>
       {/* ============== */}
       <section>
         <SectionTitle

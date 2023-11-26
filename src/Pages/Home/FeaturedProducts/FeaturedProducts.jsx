@@ -8,11 +8,10 @@ const FeaturedProducts = () => {
   const axiosPublic = useAxiosPublic();
 
   useEffect(() => {
-    // Use useEffect to fetch data once the component mounts
     axiosPublic.get("/featuredProducts").then((res) => {
       setFeaturedProduct(res.data);
     });
-  }, [axiosPublic]); // Include axiosPublic as a dependency to avoid useEffect warnings
+  }, [axiosPublic]);
 
   return (
     <>
