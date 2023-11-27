@@ -69,8 +69,10 @@ export const router = createBrowserRouter([
         element: <UserMyProduct></UserMyProduct>,
       },
       {
-        path: "userUpdateProduct",
+        path: "userUpdateProduct/:id",
         element: <UserUpdateProduct></UserUpdateProduct>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
       },
 
       // admin routes only

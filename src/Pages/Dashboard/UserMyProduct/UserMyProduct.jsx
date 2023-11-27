@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const UserMyProduct = () => {
   const [userAddedProduct, setAddedProduct] = useState([]);
@@ -15,6 +17,33 @@ const UserMyProduct = () => {
   }, [axiosPublic]);
 
   console.log(userAddedProduct);
+  // =============================================================================
+
+  const handleDeleteProduct = (items) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPublic.delete(`/userDeleteProduct/${items._id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            console.log(res);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+            // refetch();
+          }
+        });
+      }
+    });
+  };
   // =============================================================================
   return (
     <>
@@ -33,9 +62,9 @@ const UserMyProduct = () => {
           </thead>
           <tbody>
             {/* row 1 */}
-            {userAddedProduct.map((items) => (
+            {userAddedProduct.map((items, index) => (
               <tr key={items._id}>
-                <th></th>
+                <th>{index + 1}</th>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
@@ -57,15 +86,17 @@ const UserMyProduct = () => {
                 </td>
                 <td>Pending</td>
                 <th>
-                  <button className="">
-                    <FaEdit
-                      onClick={`/userUpdateProduct/${items._id}`}
-                      className="text-2xl text-cyan-400 hover:text-black"
-                    ></FaEdit>
-                  </button>
+                  <Link to={`/dashboard/userUpdateProduct/${items._id}`}>
+                    <button className="">
+                      <FaEdit className="text-2xl text-cyan-400 hover:text-black"></FaEdit>
+                    </button>
+                  </Link>
                 </th>
                 <th>
-                  <button className="">
+                  <button
+                    onClick={() => handleDeleteProduct(items)}
+                    className=""
+                  >
                     <FaTrash className="text-2xl text-cyan-400 hover:text-red-500"></FaTrash>
                   </button>
                 </th>
