@@ -19,12 +19,12 @@ const UserMyProduct = () => {
   //   });
   // }, [axiosSecure]);
 
-  const [userProduct] = useUserMyProduct();
+  const [userProduct, refetch] = useUserMyProduct();
   console.log("here is the data from tan stack", userProduct);
   // console.log(userAddedProduct);
   // =============================================================================
 
-  const handleDeleteProduct = (item) => {
+  const handleDeleteProduct = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -35,7 +35,7 @@ const UserMyProduct = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosPublic.delete(`/userDeleteProduct/${item._id}`).then((res) => {
+        axiosSecure.delete(`/userDeleteProduct/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             console.log(res);
             Swal.fire({
@@ -43,7 +43,7 @@ const UserMyProduct = () => {
               text: "Your file has been deleted.",
               icon: "success",
             });
-            // refetch();
+            refetch();
           }
         });
       }
@@ -100,7 +100,7 @@ const UserMyProduct = () => {
                 </th>
                 <th>
                   <button
-                    onClick={() => handleDeleteProduct(item)}
+                    onClick={() => handleDeleteProduct(item._id)}
                     className=""
                   >
                     <FaTrash className="text-2xl text-cyan-400 hover:text-red-500"></FaTrash>
