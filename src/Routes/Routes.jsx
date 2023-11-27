@@ -11,6 +11,7 @@ import UserAddProduct from "../Pages/Dashboard/UserAddProduct/UserAddProduct";
 import UserMyProduct from "../Pages/Dashboard/UserMyProduct/UserMyProduct";
 import Products from "../Pages/Products/Products";
 import UserUpdateProduct from "../Pages/Dashboard/UserMyProduct/UserUpdateProduct";
+import AllUser from "../Pages/Dashboard/AllUser/AllUser";
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       },
 
       // admin routes only
+      {
+        path: "users",
+        element: <AllUser></AllUser>,
+      },
     ],
   },
 ]);
