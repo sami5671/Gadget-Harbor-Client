@@ -3,7 +3,8 @@ import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 const Products = () => {
   return (
     <>
-      <section>
+
+      <section cla>
         <SectionTitle
           heading={"Explore & Buy"}
           subHeading={"Our Prominent Products "}

@@ -1,25 +1,30 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useUserMyProduct from "../../../Hooks/useUserMyProduct";
 
 const UserMyProduct = () => {
-  const [userAddedProduct, setAddedProduct] = useState([]);
+  // const [userAddedProduct, setAddedProduct] = useState([]);
 
-  //================================================================
+  // //================================================================
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    axiosPublic.get("/userAddedProduct").then((res) => {
-      setAddedProduct(res.data);
-    });
-  }, [axiosPublic]);
+  // useEffect(() => {
+  //   axiosSecure.get("/userAddedProduct").then((res) => {
+  //     setAddedProduct(res.data);
+  //   });
+  // }, [axiosSecure]);
 
-  console.log(userAddedProduct);
+  const [userProduct] = useUserMyProduct();
+  console.log("here is the data from tan stack", userProduct);
+  // console.log(userAddedProduct);
   // =============================================================================
 
-  const handleDeleteProduct = (items) => {
+  const handleDeleteProduct = (item) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -30,7 +35,7 @@ const UserMyProduct = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosPublic.delete(`/userDeleteProduct/${items._id}`).then((res) => {
+        axiosPublic.delete(`/userDeleteProduct/${item._id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             console.log(res);
             Swal.fire({
@@ -62,21 +67,22 @@ const UserMyProduct = () => {
           </thead>
           <tbody>
             {/* row 1 */}
-            {userAddedProduct.map((items, index) => (
-              <tr key={items._id}>
-                <th>{index + 1}</th>
+
+            {userProduct.map((item, i) => (
+              <tr key={item._id}>
+                <th>{i + 1}</th>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle w-12 h-12">
                         <img
-                          src={items.ProductPhoto}
+                          src={item.ProductPhoto}
                           alt="Avatar Tailwind CSS Component"
                         />
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{items.ProductName}</div>
+                      <div className="font-bold">{item.ProductName}</div>
                     </div>
                   </div>
                 </td>
@@ -86,7 +92,7 @@ const UserMyProduct = () => {
                 </td>
                 <td>Pending</td>
                 <th>
-                  <Link to={`/dashboard/userUpdateProduct/${items._id}`}>
+                  <Link to={`/dashboard/userUpdateProduct/${item._id}`}>
                     <button className="">
                       <FaEdit className="text-2xl text-cyan-400 hover:text-black"></FaEdit>
                     </button>
@@ -94,7 +100,7 @@ const UserMyProduct = () => {
                 </th>
                 <th>
                   <button
-                    onClick={() => handleDeleteProduct(items)}
+                    onClick={() => handleDeleteProduct(item)}
                     className=""
                   >
                     <FaTrash className="text-2xl text-cyan-400 hover:text-red-500"></FaTrash>
