@@ -23,13 +23,13 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="">
+                <NavLink to="/dashboard/statistics">
                   <FaChartBar></FaChartBar>
                   Statistics
                 </NavLink>
               </li>
               <li>
-                <NavLink to="">
+                <NavLink to="/dashboard/manageCoupons">
                   <FaIdCard></FaIdCard>Manage Coupons
                 </NavLink>
               </li>
