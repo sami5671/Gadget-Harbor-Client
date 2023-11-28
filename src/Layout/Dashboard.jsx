@@ -7,9 +7,10 @@ import {
   FaUtensils,
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
+import UseAdmin from "../Hooks/UseAdmin";
 
 const Dashboard = () => {
-  const isAdmin = true;
+  const [isAdmin] = UseAdmin();
   return (
     <div className="flex flex-col lg:flex-row">
       {/* dashboard side bar */}
