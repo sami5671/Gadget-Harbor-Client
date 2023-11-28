@@ -25,7 +25,7 @@ const Login = () => {
       const user = result.user;
       console.log(user);
       Swal.fire("Login Successful!");
-      navigate(from, { replace: true });
+      navigate("/");
     });
   };
   // =================================================================

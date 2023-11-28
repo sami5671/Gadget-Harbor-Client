@@ -4,18 +4,24 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useNavigate } from "react-router-dom";
 
+// =================================================================
+// =================================================================
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+// =================================================================
 const UserAddProduct = () => {
   // ----------------------------------------------------------------
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
-  // =================================================================
-  // ===========================POST THE REVIEW ======================================
-  const handleAddProduct = (event) => {
+  // ==========================imgbb host=======================================
+  const handleAddProduct = async (event) => {
     event.preventDefault();
+
     const form = event.target;
     const ProductName = form.ProductName.value;
-    const ProductPhoto = form.ProductPhotoURL.value;
+    const ProductPhoto = form.ProductPhotoURL.files[0];
     const ProductDescription = form.ProductDescription.value;
     const ProductOwnerName = form.productOwnerName.value;
     const ProductOwnerPhoto = form.ProductOwnerPhoto.value;
@@ -24,29 +30,79 @@ const UserAddProduct = () => {
     const ProductTag = form.productTag.value;
     const ProductExternalLink = form.productExternalLink.value;
 
-    // console.log(name, photoURL, description, rating);
-
-    //send data to server
-    const AddProduct = {
-      ProductName: ProductName,
-      ProductPhoto: ProductPhoto,
-      ProductDescription: ProductDescription,
-      ProductOwnerName: ProductOwnerName,
-      ProductOwnerPhoto: ProductOwnerPhoto,
-      ProductOwnerEmail: ProductOwnerEmail,
-      ProductTag: ProductTag,
-      ProductExternalLink: ProductExternalLink,
-    };
-    // console.log(AddProduct);
-
-    axiosPublic.post("/userAddedProduct", AddProduct).then((res) => {
+    try {
+      const imageFile = new FormData();
+      imageFile.append("image", ProductPhoto);
+      const imageRes = await axiosPublic.post(image_hosting_api, imageFile);
+      const imageUrl = imageRes.data.data.url;
+      // send data to imgbb
+      const AddProduct = {
+        ProductName: ProductName,
+        ProductPhoto: imageUrl,
+        ProductDescription: ProductDescription,
+        ProductOwnerName: ProductOwnerName,
+        ProductOwnerPhoto: ProductOwnerPhoto,
+        ProductOwnerEmail: ProductOwnerEmail,
+        ProductTag: ProductTag,
+        ProductExternalLink: ProductExternalLink,
+      };
+      // Add product data to mongodb
+      const res = await axiosPublic.post("/userAddedProduct", AddProduct);
       if (res.data.insertedId) {
-        Swal.fire("The Product has added successfully");
+        Swal.fire("The Product has been added successfully");
         navigate("/dashboard/myProduct");
       }
-    });
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
   };
 
+  // ===========================================
+  // ===========================POST THE REVIEW ======================================
+  // const handleAddProduct = async (event) => {
+  //   event.preventDefault();
+
+  //   const onSubmit = async (data) => {
+  //     console.log(data);
+  //     const imageFile = { image: data.image[0] };
+  //     const res = await axiosPublic.post(image_hosting_api, imageFile, {
+  //       headers: {
+  //         "content-type": "multipart/form-data",
+  //       },
+  //     });
+  //     // Handle the response as needed
+  //   };
+
+  //   const form = event.target;
+  //   const ProductName = form.ProductName.value;
+  //   const ProductPhoto = form.ProductPhotoURL.value;
+  //   const ProductDescription = form.ProductDescription.value;
+  //   const ProductOwnerName = form.productOwnerName.value;
+  //   const ProductOwnerPhoto = form.ProductOwnerPhoto.value;
+  //   const ProductOwnerEmail = form.ProductOwnerEmail.value;
+
+  //   const ProductTag = form.productTag.value;
+  //   const ProductExternalLink = form.productExternalLink.value;
+
+  //   // send data to server
+  //   const AddProduct = {
+  //     ProductName: ProductName,
+  //     ProductPhoto: ProductPhoto,
+  //     ProductDescription: ProductDescription,
+  //     ProductOwnerName: ProductOwnerName,
+  //     ProductOwnerPhoto: ProductOwnerPhoto,
+  //     ProductOwnerEmail: ProductOwnerEmail,
+  //     ProductTag: ProductTag,
+  //     ProductExternalLink: ProductExternalLink,
+  //   };
+
+  //   axiosPublic.post("/userAddedProduct", AddProduct).then((res) => {
+  //     if (res.data.insertedId) {
+  //       Swal.fire("The Product has added successfully");
+  //       navigate("/dashboard/myProduct");
+  //     }
+  //   });
+  // };
   // =================================================================
   // ----------------------------------------------------------------
   return (
@@ -86,7 +142,7 @@ const UserAddProduct = () => {
                 </label>
                 <label className="input-group">
                   <input
-                    type="photo"
+                    type="file"
                     name="ProductPhotoURL"
                     required
                     placeholder="photoURL"

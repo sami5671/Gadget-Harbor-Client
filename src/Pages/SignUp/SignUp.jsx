@@ -7,8 +7,9 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 // ========================FOR IMAGE HOSTING=========================================
-// const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+// =================================================================
 const SignUp = () => {
   const { createUser, updateUserProfile } = useAuth();
   const axiosPublic = useAxiosPublic();
@@ -17,35 +18,74 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm();
   // =================================================================
 
-  const onSubmit = (data) => {
-    console.log(data);
-    createUser(data.email, data.password).then((result) => {
-      const loggedUser = result.user;
-      console.log(loggedUser);
-      updateUserProfile(data.name, data.photoURL).then(() => {
-        console.log("User profile updated successfully");
+  const onSubmit = async (data) => {
+    // =================================================================
+    const imageFile = { image: data.photoURL[0] };
+    const imageRes = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    const imageUrl = imageRes.data.data.display_url;
+    // =================================================================
+    createUser(data.email, data.password)
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
 
-        // create user entry to the mongo database
-        const userInfo = {
-          name: data.name,
-          email: data.email,
-          photoURL: data.photoURL,
-      };
-        axiosPublic.post("/users", userInfo).then((res) => {
-          if (res.data.insertedId) {
-            reset();
-            Swal.fire("User created successfully");
-            navigate("/");
-          }
+        updateUserProfile(data.name, imageUrl)
+          .then(() => {
+            console.log("User profile updated successfully");
+
+            // create user entry to the mongo database
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+              photoURL: data.photoURL,
+            };
+            console.log("image bb: ", userInfo);
+            axiosPublic
+              .post("/users", userInfo)
+              .then((res) => {
+                if (res.data.insertedId) {
+                  reset();
+                  Swal.fire("User created successfully");
+                  navigate("/");
+                } else {
+                  Swal.fire("Error creating user entry in the database");
+                }
+              })
+              .catch((error) => {
+                console.error("Error creating user entry:", error.message);
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: error.message,
+                });
+              });
+          })
+          .catch((error) => {
+            console.error("Error updating user profile:", error.message);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: error.message,
+            });
+          });
+      })
+      .catch((error) => {
+        console.error("Error creating user:", error.message);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message,
         });
       });
-    });
   };
 
   //================================================================
@@ -81,7 +121,7 @@ const SignUp = () => {
                   <span className="label-text">Photo Url</span>
                 </label>
                 <input
-                  type="text"
+                  type="file"
                   {...register("photoURL", { required: true })}
                   placeholder="photo URL"
                   className="input input-bordered"

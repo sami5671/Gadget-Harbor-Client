@@ -14,6 +14,7 @@ import UserUpdateProduct from "../Pages/Dashboard/UserMyProduct/UserUpdateProduc
 import AllUser from "../Pages/Dashboard/AllUser/AllUser";
 import ProductReviewPage from "../Pages/Dashboard/Moderator/ProductReviewPage";
 import AdminRoute from "./AdminRoute";
+import AllAcceptedProducts from "../Pages/Products page/AllAcceptedProducts";
 
 export const router = createBrowserRouter([
   {
@@ -32,7 +33,11 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/featuredProducts/${params.id}`),
+          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
+      },
+      {
+        path: "/allAcceptedProducts",
+        element: <AllAcceptedProducts></AllAcceptedProducts>,
       },
       {
         path: "/allProducts",

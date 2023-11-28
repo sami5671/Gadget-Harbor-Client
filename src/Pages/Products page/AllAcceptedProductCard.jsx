@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
-import useAuth from "../../../Hooks/useAuth";
+import useAuth from "../../Hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
+import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 
-// import Swal from "sweetalert2";
-
-const FeaturedProductCard = ({ cards }) => {
+const AllAcceptedProductCard = ({ cards }) => {
+  // =================================================================
   const { ProductName, ProductPhoto, ProductTag, _id } = cards;
+  // =================================================================
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -60,13 +60,12 @@ const FeaturedProductCard = ({ cards }) => {
       navigate("/login");
     }
   };
-
-  // ===================================================
+  //   =================================================================
   return (
     <>
       <div className="card bg-base-100 shadow-2xl">
         <figure>
-          <img className="w-[400px] h-[250px]" src={ProductPhoto} alt="Shoes" />
+          <img className="w-[400px] h-[200px]" src={ProductPhoto} alt="Shoes" />
         </figure>
         <div className="card-body" data-aos="fade-up-right">
           <Link to={`/product/${_id}`}>
@@ -105,4 +104,4 @@ const FeaturedProductCard = ({ cards }) => {
   );
 };
 
-export default FeaturedProductCard;
+export default AllAcceptedProductCard;

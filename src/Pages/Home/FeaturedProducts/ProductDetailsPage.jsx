@@ -14,7 +14,8 @@ const ProductDetailsPage = () => {
   const axiosPublic = useAxiosPublic();
   const productDetails = useLoaderData();
   const navigate = useNavigate();
-  const { name, image, tag, _id } = productDetails;
+  const { ProductName, ProductPhoto, ProductTag, ProductDescription, _id } =
+    productDetails;
   const [review, setReview] = useState([]);
 
   // =======================for upvVote and Report ==========================================
@@ -82,26 +83,25 @@ const ProductDetailsPage = () => {
       </Helmet>
       <h1 className="lg:mb-24 text-white">hello</h1>
       <SectionTitle
-        heading={name}
+        heading={ProductName}
         subHeading={"----Product Details of-------"}
       ></SectionTitle>
 
       <section className="flex flex-col lg:flex-row px-4 lg:px-0">
         <div className="lg:mr-8">
-          <img className="w-full lg:w-[900px]" src={image} alt="" />
+          <img
+            className="w-full lg:w-[900px] lg:h-[400px]"
+            src={ProductPhoto}
+            alt=""
+          />
         </div>
 
         <div>
-          <h1 className="text-lg lg:text-xl mb-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-            voluptas, repudiandae deserunt ut nobis quo dolor exercitationem
-            aliquam ipsum voluptate, placeat repellendus ea magni vitae mollitia
-            cupiditate pariatur illum perspiciatis.
-          </h1>
+          <h1 className="text-lg lg:text-xl mb-4">{ProductDescription}</h1>
           <div className="mb-4">
             <p>
               <span className=" text-2xl font-bold">Tag: </span>
-              {tag}
+              {ProductTag}
             </p>
           </div>
           <p>External Links: </p>
@@ -132,7 +132,7 @@ const ProductDetailsPage = () => {
       <section>
         <SectionTitle
           heading={"---Product Reviews---"}
-          subHeading={name}
+          subHeading={ProductName}
         ></SectionTitle>
       </section>
       {/* -----review ----- */}
@@ -149,14 +149,14 @@ const ProductDetailsPage = () => {
       {/* ============== */}
       <section>
         <SectionTitle
-          subHeading={name}
+          subHeading={ProductName}
           heading={"Here you can Post Review "}
         ></SectionTitle>
       </section>
       {/* ------------ */}
       <div className="bg-[#b9dbf8] p-4 md:p-24">
         <h2 className="text-3xl md:text-5xl font-extrabold font-rancho text-[#374151] text-center mb-12">
-          Post a review of the Gadget <br />({name})
+          Post a review of the Gadget <br />({ProductName})
         </h2>
         <form onSubmit={handlePostReview}>
           {/* Reviewer Name and Reviewer PhotoURL row */}
