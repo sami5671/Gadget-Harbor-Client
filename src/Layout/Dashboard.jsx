@@ -8,9 +8,11 @@ import {
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import UseAdmin from "../Hooks/UseAdmin";
+import UseModerator from "../Hooks/UseModerator";
 
 const Dashboard = () => {
   const [isAdmin] = UseAdmin();
+  const [isModerator] = UseModerator();
   return (
     <div className="flex flex-col lg:flex-row">
       {/* dashboard side bar */}
@@ -32,6 +34,19 @@ const Dashboard = () => {
               <li>
                 <NavLink to="/dashboard/manageCoupons">
                   <FaIdCard></FaIdCard>Manage Coupons
+                </NavLink>
+              </li>
+            </>
+          ) : isModerator ? (
+            <>
+              <li>
+                <NavLink to="/dashboard/productReviewQueue">
+                  <FaSearch></FaSearch> Product Review Queue
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/reportedContents">
+                  <FaIdCard></FaIdCard> Reported Contents
                 </NavLink>
               </li>
             </>

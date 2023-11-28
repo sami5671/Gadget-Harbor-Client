@@ -12,6 +12,8 @@ import UserMyProduct from "../Pages/Dashboard/UserMyProduct/UserMyProduct";
 import Products from "../Pages/Products/Products";
 import UserUpdateProduct from "../Pages/Dashboard/UserMyProduct/UserUpdateProduct";
 import AllUser from "../Pages/Dashboard/AllUser/AllUser";
+import ProductReviewPage from "../Pages/Dashboard/Moderator/ProductReviewPage";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -76,10 +78,20 @@ export const router = createBrowserRouter([
           fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
       },
 
+      // moderator routes
+      {
+        path: "productReviewQueue",
+        element: <ProductReviewPage></ProductReviewPage>,
+      },
+
       // admin routes only
       {
         path: "users",
-        element: <AllUser></AllUser>,
+        element: (
+          <AdminRoute>
+            <AllUser></AllUser>
+          </AdminRoute>
+        ),
       },
     ],
   },
