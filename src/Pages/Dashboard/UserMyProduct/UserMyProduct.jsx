@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useUserMyProduct from "../../../Hooks/useUserMyProduct";
+import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 
 const UserMyProduct = () => {
   // const [userAddedProduct, setAddedProduct] = useState([]);
@@ -53,11 +54,19 @@ const UserMyProduct = () => {
   return (
     <>
       <div className="overflow-x-auto">
+        <SectionTitle
+          heading={"Here Is Your Added Products"}
+          subHeading={"Wait For Moderator Approval"}
+        ></SectionTitle>
+
+        <h1 className="text-center text-2xl">
+          Total Products: {userProduct.length}
+        </h1>
         <table className="table">
           {/* head */}
           <thead>
             <tr>
-              <th></th>
+              <th>No.</th>
               <th>Product Name</th>
               <th>Number of votes</th>
               <th>Status</th>

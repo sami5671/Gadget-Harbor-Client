@@ -2,13 +2,13 @@ import {
   FaAngular,
   FaFileSignature,
   FaInfoCircle,
-  FaTrash,
   FaTrashRestoreAlt,
 } from "react-icons/fa";
 
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 // import ProductDetailsPage from "./../../Home/FeaturedProducts/ProductDetailsPage";
 
 const ProductReviewPage = () => {
@@ -23,6 +23,22 @@ const ProductReviewPage = () => {
   });
   console.log(userAddedProduct);
   // =================================================================
+  const handleProductFeature = (item) => {
+    axiosSecure.patch(`/userAddedProduct/${item._id}`).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount > 0) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${item.ProductName} is a Featured Product Now!!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        refetch();
+      }
+    });
+  };
+  //   =================================================================
   return (
     <>
       <div>
@@ -63,22 +79,23 @@ const ProductReviewPage = () => {
                       </div>
                     </div>
                   </td>
-
                   <td className="py-4 px-6">
-                    <button
-                      //   onClick={() => handleMakeAdmin(user)}
-                      className="btn bg-cyan-500 btn-xl"
-                    >
+                    <button className="btn bg-cyan-500 btn-xl">
                       <FaInfoCircle className="text-white text-2xl" />
                     </button>
                   </td>
+
                   <td className="py-4 px-6">
-                    <button
-                      //   onClick={() => handleMakeAdmin(user)}
-                      className="btn bg-cyan-500 btn-xl"
-                    >
-                      <FaFileSignature className="text-white text-2xl" />
-                    </button>
+                    {item.featuredProduct === "true" ? (
+                      "Featured Product"
+                    ) : (
+                      <button
+                        onClick={() => handleProductFeature(item)}
+                        className="btn bg-cyan-500 btn-xl"
+                      >
+                        <FaFileSignature className="text-white text-2xl" />
+                      </button>
+                    )}
                   </td>
                   <td className="py-4 px-6">
                     <button

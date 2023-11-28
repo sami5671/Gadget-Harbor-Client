@@ -9,7 +9,7 @@ const useUserMyProduct = () => {
     queryKey: ["product", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/userAddedProduct?email=${user?.email}`
+        `/userAddedProductByEmail?email=${user?.email}`
       );
       return res.data;
     },
