@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import ProductReviewCard from "./ProductReviewCard";
 import { FaReplyAll, FaThumbsUp } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const ProductDetailsPage = () => {
   const { user } = useAuth();
@@ -18,9 +20,33 @@ const ProductDetailsPage = () => {
     productDetails;
   const [review, setReview] = useState([]);
 
+  // =================================================================================================
+  const axiosSecure = useAxiosSecure();
+  const { refetch, data: userAddedProduct = [] } = useQuery({
+    queryKey: ["userAddedProduct"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/userAddedProduct/${_id}`);
+      return res.data;
+    },
+  });
+  console.log(userAddedProduct);
+  // const handleReportProduct = (item) => {
+  //   axiosSecure.patch(`/userReportedProduct/${item._id}`).then((res) => {
+  //     console.log(res.data);
+  //     if (res.data.modifiedCount > 0) {
+  //       Swal.fire({
+  //         position: "top-end",
+  //         icon: "success",
+  //         title: `${item.ProductName} is a Featured Product Now!!`,
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     }
+  //   });
+  // };
   // =======================for upvVote and Report ==========================================
   const [votesUp, setVotesUp] = useState(0);
-  const [report, setReport] = useState(0);
+  // const [report, setReport] = useState(0);
   const [hasVoted, setHasVoted] = useState(false);
 
   const handleUpVote = () => {
@@ -31,14 +57,14 @@ const ProductDetailsPage = () => {
       navigate("/login");
     }
   };
-  const handleDownVote = () => {
-    if (user && !hasVoted) {
-      setReport(report + 1);
-      setHasVoted(true);
-    } else {
-      navigate("/login");
-    }
-  };
+  // const handleDownVote = () => {
+  //   if (user && !hasVoted) {
+  //     setReport(report + 1);
+  //     setHasVoted(true);
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // };
   // =================================================================
   //   console.log(productDetails);
 
@@ -116,16 +142,17 @@ const ProductDetailsPage = () => {
             UpVote <FaThumbsUp className="text-green-500"></FaThumbsUp>
             {votesUp}
           </button>
-          <button
-            onClick={handleDownVote}
-            className={`btn ml-4 mt-4 hover:bg-red-400 hover:text-white hover:font-bold ${
-              hasVoted ? "cursor-not-allowed opacity-80" : ""
-            }`}
-            disabled={hasVoted}
-          >
-            Report <FaReplyAll className="text-red-500"></FaReplyAll>
-            {report}
-          </button>
+
+          {userAddedProduct.reportProduct === "true" ? (
+            "Reported"
+          ) : (
+            <button
+              // onClick={() => handleReportProduct()}
+              className={`btn ml-4 mt-4 hover:bg-red-400 hover:text-white hover:font-bold`}
+            >
+              Report <FaReplyAll className="text-red-500"></FaReplyAll>
+            </button>
+          )}
         </div>
       </section>
 

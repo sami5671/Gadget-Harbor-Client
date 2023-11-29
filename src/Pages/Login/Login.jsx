@@ -1,9 +1,14 @@
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginImg from "../../../src/assets/Images/login.png";
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
-
+// import { useContext, useEffect, useState } from "react";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
 import Swal from "sweetalert2";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 const Login = () => {
@@ -29,6 +34,21 @@ const Login = () => {
     });
   };
   // =================================================================
+
+  // =================================================================
+  const captchaRef = useRef(null);
+  const [disabled, setDisabled] = useState(true);
+  useEffect(() => {
+    loadCaptchaEnginge(6);
+  }, []);
+  const handleValidationCaptcha = (e) => {
+    const user_captcha_value = e.target.value;
+    if (validateCaptcha(user_captcha_value)) {
+      setDisabled(false);
+    }
+  };
+
+  // ====================================================================================
   return (
     <div>
       <Helmet>
@@ -71,7 +91,7 @@ const Login = () => {
                 </label>
               </div>
               {/* =======recaptcha */}
-              {/* <div className="form-control">
+              <div className="form-control">
                 <label className="label">
                   <LoadCanvasTemplate />
                 </label>
@@ -82,14 +102,14 @@ const Login = () => {
                   name="captcha"
                   className="input input-bordered"
                   required
-                /> */}
-              {/* <button className="btn btn-outline btn-secondary btn-xs">
+                />
+                <button className="btn btn-outline btn-secondary btn-xs">
                   Validate
-                </button> */}
-              {/* </div> */}
+                </button>
+              </div>
               <div className="form-control mt-6">
                 <input
-                  // disabled={disabled}
+                  disabled={disabled}
                   className="btn btn-primary"
                   type="submit"
                   value="Login"

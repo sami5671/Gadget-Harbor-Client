@@ -1,7 +1,18 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <>
       <footer className="footer footer-center p-10 bg-cyan-400 text-base-content rounded mt-24">
+        <div className="flex items-center justify-center mb-6">
+          <Link to="/">
+            <img
+              src="../../../public/logoo.jpg"
+              alt="Gadget Harbor Logo"
+              className="h-10 w-auto"
+            />
+          </Link>
+        </div>
         <nav className="grid grid-flow-col gap-4 text-white">
           <a className="link link-hover">About us</a>
           <a className="link link-hover">Contact</a>

@@ -15,6 +15,8 @@ import AllUser from "../Pages/Dashboard/AllUser/AllUser";
 import ProductReviewPage from "../Pages/Dashboard/Moderator/ProductReviewPage";
 import AdminRoute from "./AdminRoute";
 import AllAcceptedProducts from "../Pages/Products page/AllAcceptedProducts";
+import ReportPage from "../Pages/Home/FeaturedProducts/ReportPage";
+import Statistics from "../Pages/Dashboard/Admin/Statistics";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +44,16 @@ export const router = createBrowserRouter([
       {
         path: "/allProducts",
         element: <Products></Products>,
+      },
+      {
+        path: "/reportProduct/:id",
+        element: (
+          <PrivateRoute>
+            <ReportPage></ReportPage>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
       },
       {
         path: "/login",
@@ -95,6 +107,14 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AllUser></AllUser>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "statistics",
+        element: (
+          <AdminRoute>
+            <Statistics></Statistics>
           </AdminRoute>
         ),
       },

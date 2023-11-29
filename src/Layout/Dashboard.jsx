@@ -78,7 +78,7 @@ const Dashboard = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/">
+            <NavLink to="/allAcceptedProducts">
               <FaSearch></FaSearch> Products
             </NavLink>
           </li>
