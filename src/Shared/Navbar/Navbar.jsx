@@ -46,6 +46,25 @@ const Navbar = () => {
       <li>
         <Link to="/aboutUs">About us</Link>
       </li>
+      <li className="block lg:hidden">
+        <Link to="/dashboard">Dashboard</Link>
+        <div>
+          {user && (
+            <>
+              <div className="w-12">
+                <img className="rounded-full" src={user.photoURL} alt="" />
+              </div>
+
+              <button
+                onClick={handleLogOut}
+                className="btn bg-slate-500 text-white"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
+      </li>
 
       {user ? (
         <>
