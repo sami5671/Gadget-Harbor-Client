@@ -99,7 +99,9 @@ const UserMyProduct = () => {
                   <br />
                   <span className="badge badge-ghost badge-sm">0</span>
                 </td>
-                <td>Pending</td>
+                <td>
+                  {item.AcceptedProduct === "true" ? "Accepted" : "Pending"}
+                </td>
                 <th>
                   <Link to={`/dashboard/userUpdateProduct/${item._id}`}>
                     <button className="">

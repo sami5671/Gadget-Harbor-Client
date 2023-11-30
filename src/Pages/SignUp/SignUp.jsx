@@ -6,25 +6,38 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
-// ========================FOR IMAGE HOSTING=========================================
+
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-// =================================================================
+
 const SignUp = () => {
   const { createUser, updateUserProfile } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
-  // ======================react hook form============================================
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    getValues,
   } = useForm();
-  // =================================================================
+
+  const isPasswordValid = (password) => {
+    // Add your password validation logic here
+    // For example: at least one uppercase, one lowercase, and one special character
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+    return (
+      uppercaseRegex.test(password) &&
+      lowercaseRegex.test(password) &&
+      specialCharRegex.test(password)
+    );
+  };
 
   const onSubmit = async (data) => {
-    // =================================================================
     const imageFile = { image: data.photoURL[0] };
     const imageRes = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: {
@@ -32,23 +45,19 @@ const SignUp = () => {
       },
     });
     const imageUrl = imageRes.data.data.display_url;
-    // =================================================================
+
     createUser(data.email, data.password)
       .then((result) => {
         const loggedUser = result.user;
-        console.log(loggedUser);
 
         updateUserProfile(data.name, imageUrl)
           .then(() => {
-            console.log("User profile updated successfully");
-
-            // create user entry to the mongo database
             const userInfo = {
               name: data.name,
               email: data.email,
               photoURL: data.photoURL,
             };
-            console.log("image bb: ", userInfo);
+
             axiosPublic
               .post("/users", userInfo)
               .then((res) => {
@@ -88,7 +97,6 @@ const SignUp = () => {
       });
   };
 
-  //================================================================
   return (
     <div>
       <Helmet>
@@ -152,14 +160,19 @@ const SignUp = () => {
                 </label>
                 <input
                   type="password"
-                  {...register("password", { required: true })}
+                  {...register("password", {
+                    required: "Password is required",
+                    validate: (value) =>
+                      isPasswordValid(value) ||
+                      "Password must be one uppercase, one lowercase & one special character ",
+                  })}
                   placeholder="password"
                   className="input input-bordered"
                   required
                 />
                 {errors.password && (
                   <span className="text-red-400">
-                    Password field is required
+                    {errors.password.message}
                   </span>
                 )}
                 <label className="label">

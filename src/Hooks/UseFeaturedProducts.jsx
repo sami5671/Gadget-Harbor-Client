@@ -10,7 +10,11 @@ const UseFeaturedProducts = () => {
     queryKey: ["product"],
     queryFn: async () => {
       const res = await axiosPublic.get(`/userAddedProduct`);
-      return res.data;
+      if (Array.isArray(res.data)) {
+        return res.data;
+      } else {
+        return [];
+      }
     },
   });
   return [featuredProduct, refetch];

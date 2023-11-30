@@ -3,6 +3,10 @@ import {
   FaHome,
   FaIdCard,
   FaSearch,
+  FaShoppingCart,
+  FaStore,
+  FaToolbox,
+  FaUser,
   FaUsers,
   FaUtensils,
 } from "react-icons/fa";
@@ -54,17 +58,17 @@ const Dashboard = () => {
             <>
               <li>
                 <NavLink to="/dashboard/userHome">
-                  <FaHome></FaHome>user Home
+                  <FaUser></FaUser> user Home
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/addProduct">
-                  <FaUtensils></FaUtensils>Add Product
+                  <FaToolbox></FaToolbox> Add Product
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/myProduct">
-                  <FaHome></FaHome>My Products
+                  <FaShoppingCart></FaShoppingCart> My Products
                 </NavLink>
               </li>
             </>
@@ -79,7 +83,7 @@ const Dashboard = () => {
           </li>
           <li>
             <NavLink to="/allAcceptedProducts">
-              <FaSearch></FaSearch> Products
+              <FaStore></FaStore> Products
             </NavLink>
           </li>
         </ul>

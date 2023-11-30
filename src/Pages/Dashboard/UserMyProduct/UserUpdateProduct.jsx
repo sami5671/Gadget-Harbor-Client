@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 const UserUpdateProduct = () => {
   const userProductInfo = useLoaderData();
   const axiosPublic = useAxiosPublic();
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   console.log(userProductInfo);
 
   const {
@@ -47,12 +47,10 @@ const UserUpdateProduct = () => {
             timer: 1500,
           });
           // Optionally, you can navigate here
-          // navigate("/dashboard/myProduct");
+          navigate("/dashboard/myProduct");
         }
       });
   };
-
- 
 
   return (
     <>

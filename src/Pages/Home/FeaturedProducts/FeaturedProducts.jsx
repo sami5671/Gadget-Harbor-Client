@@ -18,6 +18,7 @@ const FeaturedProducts = () => {
 
   const [featuredProduct] = UseFeaturedProducts();
   console.log(featuredProduct);
+
   // ===========================filtering======================================
   const featuredProductsTrue = featuredProduct.filter(
     (product) => product.featuredProduct === "true"

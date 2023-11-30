@@ -17,11 +17,15 @@ import AdminRoute from "./AdminRoute";
 import AllAcceptedProducts from "../Pages/Products page/AllAcceptedProducts";
 import ReportPage from "../Pages/Home/FeaturedProducts/ReportPage";
 import Statistics from "../Pages/Dashboard/Admin/Statistics";
+import Payment from "../Pages/Dashboard/Payment/Payment";
+import ErrorPage from "../Components/ErrorPage/ErrorPage";
+import AboutUs from "../Pages/About Us/AboutUs";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -35,7 +39,9 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
+          fetch(
+            `https://gadget-harbor-server.vercel.app/userAddedProduct/${params.id}`
+          ),
       },
       {
         path: "/allAcceptedProducts",
@@ -53,7 +59,13 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
+          fetch(
+            `https://gadget-harbor-server.vercel.app/userAddedProduct/${params.id}`
+          ),
+      },
+      {
+        path: "/aboutUs",
+        element: <AboutUs></AboutUs>,
       },
       {
         path: "/login",
@@ -92,7 +104,13 @@ export const router = createBrowserRouter([
         path: "userUpdateProduct/:id",
         element: <UserUpdateProduct></UserUpdateProduct>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
+          fetch(
+            `https://gadget-harbor-server.vercel.app/userAddedProduct/${params.id}`
+          ),
+      },
+      {
+        path: "payment",
+        element: <Payment></Payment>,
       },
 
       // moderator routes

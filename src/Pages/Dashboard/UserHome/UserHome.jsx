@@ -1,8 +1,14 @@
+import { Link } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
 
 const UserHome = () => {
-  const { user } = useAuth();
+  // =================================================================
 
+  // =================================================================
+  const { user, isSubscribed } = useAuth();
+  // =================================================================
+  console.log(isSubscribed);
+  // =================================================================
   return (
     <div className="max-w-screen-lg mx-auto p-4">
       {/* image */}
@@ -26,6 +32,24 @@ const UserHome = () => {
         </div>
       </div>
       {/* info */}
+      {/* Membership Subscribe Button */}
+
+      <Link to="/dashboard/payment">
+        {!isSubscribed && (
+          <button className="bg-cyan-500 hover:bg-white hover:text-black text-white px-4 py-2 rounded">
+            Subscribe for $12.5
+          </button>
+        )}
+      </Link>
+      {/* User Membership Subscription Status */}
+      {isSubscribed && (
+        <div className="mt-4">
+          <strong className="block mb-2">Membership Status:</strong>
+          <span className="bg-green-500 text-white px-4 py-2 rounded">
+            Verified (paid $12.5)
+          </span>
+        </div>
+      )}
     </div>
   );
 };
