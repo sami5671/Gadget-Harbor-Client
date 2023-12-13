@@ -20,6 +20,7 @@ import Statistics from "../Pages/Dashboard/Admin/Statistics";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import AboutUs from "../Pages/About Us/AboutUs";
+import AiSearch from "../Pages/Ai Search/AiSearch";
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
       {
         path: "/aboutUs",
         element: <AboutUs></AboutUs>,
+      },
+      {
+        path: "/ourAi",
+        element: <AiSearch></AiSearch>,
       },
       {
         path: "/login",

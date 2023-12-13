@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import useAuth from "./../../Hooks/useAuth";
+import { SiProbot } from "react-icons/si";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -9,7 +10,6 @@ const Navbar = () => {
       .then(() => {})
       .catch((error) => console.log(error));
   };
-
   // =========================navigation here =========================
   const UserMenu = () => (
     <div className="dropdown ">
@@ -45,6 +45,11 @@ const Navbar = () => {
       </li>
       <li>
         <Link to="/aboutUs">About us</Link>
+      </li>
+      <li>
+        <Link to="/ourAi">
+          AI Search <SiProbot className="text-2xl" />
+        </Link>
       </li>
       <li className="block lg:hidden">
         <Link to="/dashboard">Dashboard</Link>
