@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 import useAuth from "../../../Hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
+import ChatbotApp from "../../../Components/Chatbot/ChatbotApp";
 
 // import Swal from "sweetalert2";
 

@@ -26,8 +26,12 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.20.0",
     "react-simple-captcha": "^9.3.0",
+    "react-simple-chatbot": "^0.6.1",
     "recharts": "^2.10.2",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "sort-by": "^1.2.0",
+    "styled-components": "^4.4.1",
     "sweetalert2": "^11.10.1"
   },
   "devDependencies": {

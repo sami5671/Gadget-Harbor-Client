@@ -16,7 +16,7 @@ const ProductReviewPage = () => {
   // =================================================================
   const axiosSecure = useAxiosSecure();
   const { refetch, data: userAddedProduct = [] } = useQuery({
-    queryKey: ["userAddedProduct"],
+    queryKey: ["userAddedProducts"],
     queryFn: async () => {
       const res = await axiosSecure.get("/userAddedProduct");
       return res.data;
@@ -110,7 +110,7 @@ const ProductReviewPage = () => {
               </tr>
             </thead>
             <tbody>
-              {userAddedProduct.map((item, index) => (
+              {userAddedProduct?.map((item, index) => (
                 <tr key={item._id}>
                   <td className="py-4 px-6">{index + 1}</td>
                   <td className="py-4 px-6">{item.ProductName}</td>

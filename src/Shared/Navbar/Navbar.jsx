@@ -48,6 +48,7 @@ const Navbar = () => {
       </li>
       <li className="block lg:hidden">
         <Link to="/dashboard">Dashboard</Link>
+
         <div>
           {user && (
             <>
@@ -73,9 +74,11 @@ const Navbar = () => {
           </div>
         </>
       ) : (
-        <Link to="/login">
-          <button className="btn font-bold">LOGIN HERE</button>
-        </Link>
+        <div>
+          <Link to="/login">
+            <button className="btn font-bold">LOGIN HERE</button>
+          </Link>
+        </div>
       )}
     </>
   );
@@ -113,7 +116,7 @@ const Navbar = () => {
           <a className="btn btn-ghost normal-case text-xl">Gadget Harbor</a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{navOptions}</ul>
+          <ul className="menu menu-horizontal px-1">{navOptions} </ul>
         </div>
       </div>
     </>
