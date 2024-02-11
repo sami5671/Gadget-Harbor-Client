@@ -19,15 +19,17 @@ const Navbar = () => {
           <img src={user.photoURL} alt="" />
         </div>
       </label>
-      <ul className="menu dropdown-content bg-white px-24 rounded-lg">
-        <li>
-          <span className=" text-black">{user.displayName || user.email}</span>
+      <ul className="menu dropdown-content mt-4 lg:w-[250px] bg-white font-semibold rounded-md">
+        <li className="">
+          <span className="text-teal-400 text-[18px] hover:text-teal-200">
+            {user.displayName || user.email}
+          </span>
         </li>
-        <li className="text-black">
+        <li className="text-black mt-2 hover:text-white hover:bg-slate-400 rounded-md">
           <Link to="/dashboard">Dashboard</Link>
         </li>
-        <li className="text-black">
-          <button onClick={handleLogOut} className="btn bg-slate-300">
+        <li className="text-black mt-2 hover:text-white hover:bg-slate-400 rounded-md">
+          <button onClick={handleLogOut} className="">
             Logout
           </button>
         </li>

@@ -17,7 +17,7 @@ const FeaturedProducts = () => {
   // =================================================================
 
   const [featuredProduct] = UseFeaturedProducts();
-  console.log(featuredProduct);
+  // console.log(featuredProduct);
 
   // ===========================filtering======================================
   const featuredProductsTrue = featuredProduct.filter(
@@ -34,7 +34,7 @@ const FeaturedProducts = () => {
       </section>
 
       <section className="p-4 md:p-16 mx-auto mt-12 lg:mt-8">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {featuredProductsTrue.map((cards) => (
             <FeaturedProductCard
               key={cards._id}
