@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useAuth from "./../../Hooks/useAuth";
 import { SiProbot } from "react-icons/si";
+import { PiApplePodcastsLogoFill } from "react-icons/pi";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -18,7 +19,6 @@ const Navbar = () => {
           <img src={user.photoURL} alt="" />
         </div>
       </label>
-
       <ul className="menu dropdown-content bg-white px-24 rounded-lg">
         <li>
           <span className=" text-black">{user.displayName || user.email}</span>
@@ -37,21 +37,21 @@ const Navbar = () => {
 
   const navOptions = (
     <>
-      <li>
+      <li className="font-bold hover:text-slate-400">
         <Link to="/">Home</Link>
       </li>
-      <li>
+      <li className="font-bold hover:text-slate-400">
         <Link to="/allAcceptedProducts">Products</Link>
       </li>
-      <li>
+      <li className="font-bold hover:text-slate-400">
         <Link to="/aboutUs">About us</Link>
       </li>
-      <li>
+      <li className="font-bold hover:text-slate-400">
         <Link to="/ourAi">
           AI Search <SiProbot className="text-2xl" />
         </Link>
       </li>
-      <li className="block lg:hidden">
+      <li className="block lg:hidden font-bold hover:text-slate-400">
         <Link to="/dashboard">Dashboard</Link>
 
         <div>
@@ -81,7 +81,9 @@ const Navbar = () => {
       ) : (
         <div>
           <Link to="/login">
-            <button className="btn font-bold">LOGIN HERE</button>
+            <button className="border-2 lg:mt-2 px-4 py-1 transition duration-300 ease-in-out hover:bg-slate-500 hover:border-slate-400 rounded-br-lg rounded-tl-lg">
+              LOGIN HERE
+            </button>
           </Link>
         </div>
       )}
@@ -91,7 +93,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar fixed z-10 text-white bg-opacity-30 bg-black max-w-screen-xl">
+      <div className="navbar fixed z-10 text-white bg-opacity-30 bg-black">
         <div className="navbar-start">
           <div className="dropdown lg:hidden">
             <label tabIndex={0} className="btn btn-ghost">
@@ -118,7 +120,14 @@ const Navbar = () => {
               {/* <UserMenu></UserMenu> */}
             </ul>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">Gadget Harbor</a>
+          <Link to="/">
+            <h1 className="uppercase font-bold text-teal-400 lg:text-xl ml-4">
+              <span className="flex items-center gap-2">
+                Gadget Harbor
+                <PiApplePodcastsLogoFill className="text-5xl" />
+              </span>
+            </h1>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navOptions} </ul>

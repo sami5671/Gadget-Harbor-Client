@@ -40,9 +40,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://gadget-harbor-server.vercel.app/userAddedProduct/${params.id}`
-          ),
+          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
       },
       {
         path: "/allAcceptedProducts",
@@ -60,9 +58,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://gadget-harbor-server.vercel.app/userAddedProduct/${params.id}`
-          ),
+          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
       },
       {
         path: "/aboutUs",
@@ -109,9 +105,7 @@ export const router = createBrowserRouter([
         path: "userUpdateProduct/:id",
         element: <UserUpdateProduct></UserUpdateProduct>,
         loader: ({ params }) =>
-          fetch(
-            `https://gadget-harbor-server.vercel.app/userAddedProduct/${params.id}`
-          ),
+          fetch(`http://localhost:5000/userAddedProduct/${params.id}`),
       },
       {
         path: "payment",

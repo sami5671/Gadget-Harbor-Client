@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { FaRobot } from "react-icons/fa";
 import Chatbot from "react-simple-chatbot";
 import { Segment, Button } from "semantic-ui-react";
-import useAuth from "../../Hooks/useAuth";
 
 const ChatbotApp = () => {
-  const auth = useAuth();
   const [isChatbotVisible, setIsChatbotVisible] = useState(true);
 
   const toggleChatbotVisibility = () => {
@@ -36,7 +34,16 @@ const ChatbotApp = () => {
     {
       id: "issues",
       options: [
-        { value: "visited", label: "visited", trigger: "visited" },
+        {
+          value: "gadget_features",
+          label: "Gadget Features",
+          trigger: "gadget_features",
+        },
+        {
+          value: "gadget_prices",
+          label: "Gadget Prices",
+          trigger: "gadget_prices",
+        },
         {
           value: "Did not find any information",
           label: "Did not find any information",
@@ -45,8 +52,25 @@ const ChatbotApp = () => {
       ],
     },
     {
-      id: "visited",
-      message: "Thanks for visiting our React website",
+      id: "gadget_features",
+      message:
+        "Sure, let me share some information about the latest gadget features...",
+      trigger: "gadget_features_list",
+    },
+    {
+      id: "gadget_features_list",
+      message: "1. Feature 1\n2. Feature 2\n3. Feature 3\n",
+      end: true,
+    },
+    {
+      id: "gadget_prices",
+      message:
+        "Sure, let me provide you with information about gadget prices...",
+      trigger: "gadget_prices_list",
+    },
+    {
+      id: "gadget_prices_list",
+      message: "1. Gadget 1 - $500\n2. Gadget 2 - $5324\n3. Gadget 3 - $24\n",
       end: true,
     },
     {
