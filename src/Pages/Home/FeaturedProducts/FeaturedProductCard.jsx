@@ -1,64 +1,12 @@
-import { useState } from "react";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
-import useAuth from "../../../Hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+
 import ChatbotApp from "../../../Components/Chatbot/ChatbotApp";
+import { Link } from "react-router-dom";
 
 const FeaturedProductCard = ({ cards }) => {
   const { ProductName, ProductPhoto, ProductTag, _id } = cards;
-  const { user } = useAuth();
-  const navigate = useNavigate();
 
   //   ================================================
-
-  const [votesUp, setVotesUp] = useState(0);
-  const [votesDown, setVotesDown] = useState(0);
-  const [hasVoted, setHasVoted] = useState(false);
-
-  const handleUpVote = (_id) => {
-    if (user && !hasVoted) {
-      setVotesUp(votesUp + 1);
-      setHasVoted(true);
-      //send data to the server
-      const featuredProduct = {
-        name,
-        ProductImage: ProductPhoto,
-        ProductTags: ProductTag,
-        ProductCardId: _id,
-        votes: votesUp,
-      };
-      console.log(featuredProduct);
-
-      // axiosPublic
-      //   .patch(`/featuredProducts/${_id}`, featuredProduct)
-      //   .then((res) => {
-      //     if (res.data.modifiedCount > 0) {
-      //       console.log(res.data.modifiedCount);
-      //       Swal.fire("Your Response has been saved successfully");
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error:", error);
-      //     // Handle error here, for example, show an error message to the user
-      //     Swal.fire({
-      //       title: "Error!",
-      //       text: "An error occurred while updating the featured product",
-      //       icon: "error",
-      //       confirmButtonText: "OK",
-      //     });
-      //   });
-    } else {
-      navigate("/login");
-    }
-  };
-  const handleDownVote = () => {
-    if (user && !hasVoted) {
-      setVotesDown(votesDown + 1);
-      setHasVoted(true);
-    } else {
-      navigate("/login");
-    }
-  };
 
   // ===================================================
   return (
@@ -74,7 +22,7 @@ const FeaturedProductCard = ({ cards }) => {
               />
             </figure>
             <div className="">
-              <h2 className="text-cyan-400 text-2xl">{ProductName}</h2>
+              <h2 className="text-cyan-400 text-xl font-bold">{ProductName}</h2>
 
               <p>
                 <span className="text-cyan-400 font-bold">Tags: </span>

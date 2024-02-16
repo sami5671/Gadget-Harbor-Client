@@ -6,7 +6,7 @@ import AllAcceptedProductCard from "./AllAcceptedProductCard";
 const AllAcceptedProducts = () => {
   // =================================================================
   const [featuredProduct] = UseFeaturedProducts();
-  console.log(featuredProduct);
+  // console.log(featuredProduct);
   // =================================================================
   const allAcceptedProductTrue = featuredProduct.filter(
     (product) => product.AcceptedProduct === "true"
